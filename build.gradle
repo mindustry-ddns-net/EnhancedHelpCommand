@@ -1,0 +1,36 @@
+apply plugin: "java"
+apply plugin: 'maven'
+
+version '1.0'
+
+sourceCompatibility = 1.14
+
+sourceSets.main.java.srcDirs = ["src"]
+
+repositories{
+    mavenCentral()
+    maven{ url 'https://www.jitpack.io' }
+}
+
+ext{
+    //the build number that this plugin is made for
+    mindustryVersion = 'v123'
+}
+
+dependencies{
+    implementation 'com.github.Gee-aitcH:GHPluginUtil:b2d964c1ff'
+    compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
+    compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+}
+
+jar{
+    archiveFileName = "${project.archivesBaseName}.jar"
+    from{
+        configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+    }
+
+    from(rootDir){
+        include "plugin.json"
+    }
+}
