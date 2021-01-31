@@ -63,11 +63,9 @@ public class EnhancedHelpCommand extends GHPlugin {
         // Magic
     }
 
-    public static boolean add(String adminCommand){
+    public void add(String adminCommand){
         EnhancedHelpCommand ehc = (EnhancedHelpCommand) Vars.mods.getMod(EnhancedHelpCommand.class).main;
-        if (ehc == null)
-            return false;
+        if (ehc != null)
         ehc.adminCommands.add(adminCommand);
-        return true;
     }
 }
