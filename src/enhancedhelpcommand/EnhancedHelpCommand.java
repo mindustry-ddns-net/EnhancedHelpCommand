@@ -9,6 +9,8 @@ import mindustry.Vars;
 import mindustry.gen.Player;
 import pluginutil.GHPlugin;
 
+import static pluginutil.PluginUtil.SendMode.info;
+
 public class EnhancedHelpCommand extends GHPlugin {
 
     private CommandHandler clientCommands;
@@ -61,6 +63,8 @@ public class EnhancedHelpCommand extends GHPlugin {
             player.sendMessage(result.toString());
         });
         // Magic
+
+        log(info, "Help Command Overwritten.");
     }
 
     public void add(String adminCommand){
