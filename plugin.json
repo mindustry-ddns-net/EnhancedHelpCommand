@@ -1,7 +1,7 @@
 {
-  "name": "ExampleGHPlugin",
+  "name": "EnhancedHelpCommand",
   "author": "(G_H)",
-  "main": "exampleghplugin.ExampleGHPlugin",
-  "description": "An example plugin with the application of GH's plugin utils.",
+  "main": "enhancedhelpcommand.EnhancedHelpCommand",
+  "description": "A plugin that overwrite the help command.",
   "version": 1.1
 }
