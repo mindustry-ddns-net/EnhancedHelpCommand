@@ -10,6 +10,7 @@ import mindustry.gen.Player;
 import pluginutil.GHPlugin;
 
 import static pluginutil.PluginUtil.SendMode.info;
+import static pluginutil.PluginUtil.f;
 
 public class EnhancedHelpCommand extends GHPlugin {
 
@@ -64,12 +65,11 @@ public class EnhancedHelpCommand extends GHPlugin {
         });
         // Magic
 
+        log(info, f("Amount of admin commands: %s", adminCommands.size));
         log(info, "Help Command Overwritten.");
     }
 
     public void add(String adminCommand){
-        EnhancedHelpCommand ehc = (EnhancedHelpCommand) Vars.mods.getMod(EnhancedHelpCommand.class).main;
-        if (ehc != null)
-        ehc.adminCommands.add(adminCommand);
+        adminCommands.add(adminCommand);
     }
 }
