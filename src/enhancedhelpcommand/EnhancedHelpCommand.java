@@ -52,7 +52,8 @@ public class EnhancedHelpCommand extends GHPlugin {
 
             for (int i = commandsPerPage * page; i < Math.min(commandsPerPage * (page + 1), commands.size); i++) {
                 CommandHandler.Command command = commands.get(i);
-                result.append(adminOnlyCommands.contains(command) ? "[scarlet]" : "[orange]").append(" /").append(command.text).append("[white] ").append(command.paramText).append("[lightgray] - ").append(command.description).append("\n");
+                if(!adminOnlyCommands.contains(command) || player.admin)
+                    result.append(adminOnlyCommands.contains(command) ? "[scarlet]" : "[orange]").append(" /").append(command.text).append("[white] ").append(command.paramText).append("[lightgray] - ").append(command.description).append("\n");
             }
             player.sendMessage(result.toString());
         });
