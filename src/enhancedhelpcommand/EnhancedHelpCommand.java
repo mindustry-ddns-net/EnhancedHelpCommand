@@ -1,42 +1,33 @@
 package enhancedhelpcommand;
 
-import arc.Events;
 import arc.math.Mathf;
 import arc.struct.Seq;
 import arc.util.CommandHandler;
 import arc.util.Strings;
-import mindustry.Vars;
 import mindustry.gen.Player;
 import pluginutil.GHPlugin;
+
+import java.util.HashSet;
 
 import static pluginutil.PluginUtil.SendMode.info;
 import static pluginutil.PluginUtil.f;
 
 public class EnhancedHelpCommand extends GHPlugin {
 
-    private CommandHandler clientCommands;
-
-    private final Seq<String> adminCommands;
+    private final HashSet<String> adminCommands;
 
     public EnhancedHelpCommand() {
         configurables = new String[]{};
-        adminCommands = new Seq<>();
+        adminCommands = new HashSet<>();
     }
 
     @Override
     public void registerClientCommands(CommandHandler handler) {
-        clientCommands = handler;
-        fetch();
-    }
-
-    private void fetch() {
-        Events.fire(getClass());
-
         // Magic, NetServer:270
-        clientCommands.<Player>register("help", "[page]", "Lists all commands.", (args, player) -> {
-            Seq<CommandHandler.Command> commands = clientCommands.getCommandList();
+        handler.<Player>register("help", "[page]", "Lists all commands.", (args, player) -> {
+            Seq<CommandHandler.Command> commands = handler.getCommandList();
 
-            if(!player.admin)
+            if (!player.admin)
                 commands.removeAll(cmd -> adminCommands.contains(cmd.text));
 
             if (args.length > 0 && !Strings.canParseInt(args[0])) {
@@ -65,11 +56,6 @@ public class EnhancedHelpCommand extends GHPlugin {
         });
         // Magic
 
-        log(info, f("Amount of admin commands: %s", adminCommands.size));
-        log(info, "Help Command Overwritten.");
-    }
-
-    public void add(String adminCommand){
-        adminCommands.add(adminCommand);
+        log(info, f("Help Command Overwritten. Amount of admin commands: %s", adminCommands.size()));
     }
 }
