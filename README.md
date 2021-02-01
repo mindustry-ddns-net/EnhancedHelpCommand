@@ -1,21 +1,26 @@
 ### Setup
 
-Clone this repository first.
-To edit the plugin display name and other data, take a look at `plugin.json`.
-Edit the name of the project itself by going into `settings.gradle`.
-
-### Basic Usage
-
-Extends `GHPlugin` to go with my way.
-
-### Building a Jar
-
-`gradlew jar` / `./gradlew jar`
-
-Output jar should be in `build/libs`.
+Put this plugin in your mods folder.
 
 
-### Installing
+### Usage
 
-Simply place the output jar from the step above in your server's `config/mods` directory and restart the server.
-List your currently installed plugins/mods by running the `mods` command.
+```java
+// Find the mod
+LoadedMod mod = (LoadedMod)Vars.mods.list().find((m) -> {
+    return m.main != null && m.main.getClass().getSimpleName().equals("EnhancedHelpCommand");
+});
+
+if (mod != null) {
+    try {
+
+        // Get method
+        Method add = mod.main.getClass().getDeclaredMethod("add", String.class);
+        add.invoke(mod.main, "adminOnlyCommand");
+        Log.info("Admin only command registered.");
+    } catch (Exception e) {
+        Log.warn("An error has occurred while registering admin only command(s).");
+        e.printStackTrace();
+    }
+}
+```
