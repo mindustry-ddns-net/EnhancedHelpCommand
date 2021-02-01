@@ -26,10 +26,12 @@ public class EnhancedHelpCommand extends GHPlugin {
     public void registerClientCommands(CommandHandler handler) {
         // Magic, NetServer:270
         handler.<Player>register("help", "[page]", "Lists all commands.", (args, player) -> {
-            Seq<CommandHandler.Command> commands = handler.getCommandList();
+            Seq<CommandHandler.Command> commands = handler.getCommandList().copy();
             Seq<CommandHandler.Command> adminOnlyCommands = commands.copy().removeAll(cmd -> !adminCommands.contains(cmd.text));
             Seq<CommandHandler.Command> playerCommands = commands.copy().removeAll(cmd -> adminCommands.contains(cmd.text));
-            commands = Seq.with(adminOnlyCommands);
+            commands.clear();
+            if (player.admin)
+                commands.addAll(adminOnlyCommands);
             commands.addAll(playerCommands);
 
             if (args.length > 0 && !Strings.canParseInt(args[0])) {
@@ -52,14 +54,17 @@ public class EnhancedHelpCommand extends GHPlugin {
 
             for (int i = commandsPerPage * page; i < Math.min(commandsPerPage * (page + 1), commands.size); i++) {
                 CommandHandler.Command command = commands.get(i);
-                if(!adminOnlyCommands.contains(command) || player.admin)
-                    result.append(adminOnlyCommands.contains(command) ? "[scarlet]" : "[orange]").append(" /").append(command.text).append("[white] ").append(command.paramText).append("[lightgray] - ").append(command.description).append("\n");
+                result.append(adminOnlyCommands.contains(command) ? "[scarlet]" : "[orange]").append(" /").append(command.text).append("[white] ").append(command.paramText).append("[lightgray] - ").append(command.description).append("\n");
             }
             player.sendMessage(result.toString());
         });
         // Magic
 
         log(info, f("Help Command Overwritten. Amount of admin commands: %s", adminCommands.size()));
+    }
+
+    public void add(String cmd){
+        adminCommands.add(cmd);
     }
 
     public void add(String[] cmd){
