@@ -15,11 +15,19 @@ import static pluginutil.PluginUtil.f;
 
 public class EnhancedHelpCommand extends GHPlugin {
 
-    private final HashSet<String> adminCommands;
+    private final HashSet<String> adminCommandsSet;
+    private String[] adminCommands;
 
     public EnhancedHelpCommand() {
-        configurables = new String[]{};
-        adminCommands = new HashSet<>();
+        configurables = new String[]{"adminCommands"};
+        adminCommandsSet = new HashSet<>();
+        adminCommands = new String[0];
+    }
+
+    public void init(){
+        super.init();
+        if(adminCommands.length > 0)
+            adminCommandsSet.addAll(Arrays.asList(adminCommands));
     }
 
     @Override
@@ -27,8 +35,8 @@ public class EnhancedHelpCommand extends GHPlugin {
         // Magic, NetServer:270
         handler.<Player>register("help", "[page]", "Lists all commands.", (args, player) -> {
             Seq<CommandHandler.Command> commands = handler.getCommandList().copy();
-            Seq<CommandHandler.Command> adminOnlyCommands = commands.copy().removeAll(cmd -> !adminCommands.contains(cmd.text));
-            Seq<CommandHandler.Command> playerCommands = commands.copy().removeAll(cmd -> adminCommands.contains(cmd.text));
+            Seq<CommandHandler.Command> adminOnlyCommands = commands.copy().removeAll(cmd -> !adminCommandsSet.contains(cmd.text));
+            Seq<CommandHandler.Command> playerCommands = commands.copy().removeAll(cmd -> adminCommandsSet.contains(cmd.text));
             commands.clear();
             if (player.admin)
                 commands.addAll(adminOnlyCommands);
@@ -60,14 +68,14 @@ public class EnhancedHelpCommand extends GHPlugin {
         });
         // Magic
 
-        log(info, f("Help Command Overwritten. Amount of admin commands: %s", adminCommands.size()));
+        log(info, f("Help Command Overwritten. Amount of admin commands: %s", adminCommandsSet.size()));
     }
 
     public void add(String cmd){
-        adminCommands.add(cmd);
+        adminCommandsSet.add(cmd);
     }
 
     public void add(String[] cmd){
-        adminCommands.addAll(Arrays.asList(cmd));
+        adminCommandsSet.addAll(Arrays.asList(cmd));
     }
 }
