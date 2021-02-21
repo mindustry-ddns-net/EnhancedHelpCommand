@@ -5,6 +5,7 @@ Put this plugin in your mods folder.
 
 ### Usage
 
+1. Assigning admin command(s) at Runtime
 ```java
 // Find the mod
 LoadedMod mod = (LoadedMod)Vars.mods.list().find((m) -> {
@@ -24,3 +25,7 @@ if (mod != null) {
     }
 }
 ```
+
+2. Assigning admin command(s) before running the server
+Add the commands into the JSON config file which has the same name as the plugin.
+E.g. `{"adminCommands":["team"]}`
