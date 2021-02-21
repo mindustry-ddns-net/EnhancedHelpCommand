@@ -18,7 +18,7 @@ ext{
 }
 
 dependencies{
-    implementation 'com.github.Gee-aitcH:GHPluginUtil:09df93e60c'
+    implementation 'com.github.Gee-aitcH:GHPluginUtil:63ffc7590f'
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
 }
