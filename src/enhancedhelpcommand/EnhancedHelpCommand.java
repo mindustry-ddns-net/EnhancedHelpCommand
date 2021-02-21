@@ -26,8 +26,10 @@ public class EnhancedHelpCommand extends GHPlugin {
 
     public void init(){
         super.init();
-        if(cfg().adminCommands.length > 0)
+        if(cfg().adminCommands.length > 0) {
             adminCommandsSet.addAll(Arrays.asList(cfg().adminCommands));
+            log(f("Admin Only Command: %s Loaded from config.", adminCommandsSet.toString()));
+        }
 
         Events.on(EventType.ServerLoadEvent.class, e -> {
             Events.fire(new EnhancedHelpCommand());
@@ -79,10 +81,12 @@ public class EnhancedHelpCommand extends GHPlugin {
 
     public void add(String cmd){
         adminCommandsSet.add(cmd);
+        log(f("Admin Only Command: %sregistered.", cmd));
     }
 
     public void add(String[] cmd){
         adminCommandsSet.addAll(Arrays.asList(cmd));
+        log(f("Admin Only Commands: %s registered.", Arrays.toString(cmd)));
     }
 
 
