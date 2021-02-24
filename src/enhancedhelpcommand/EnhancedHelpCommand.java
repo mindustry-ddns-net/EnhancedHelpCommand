@@ -12,7 +12,6 @@ import pluginutil.GHPlugin;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static pluginutil.PluginUtil.SendMode.info;
 import static pluginutil.PluginUtil.f;
 
 @SuppressWarnings("unused never written")
@@ -21,7 +20,8 @@ public class EnhancedHelpCommand extends GHPlugin {
     private HashSet<String> adminCommandsSet;
 
     public EnhancedHelpCommand() {
-        defConfig();
+        super();
+        VERSION = "1.1";
     }
 
     public void init(){
@@ -33,7 +33,7 @@ public class EnhancedHelpCommand extends GHPlugin {
 
         Events.on(EventType.ServerLoadEvent.class, e -> {
             Events.fire(new EnhancedHelpCommand());
-            log(info, f("Help Command Overwritten. Amount of admin commands: %s", adminCommandsSet.size()));
+            log(f("Help Command Overwritten. Amount of admin commands: %s", adminCommandsSet.size()));
         });
         log("Initialized\n");
     }
@@ -96,7 +96,8 @@ public class EnhancedHelpCommand extends GHPlugin {
         cfg = new EnhancedHelpCommandConfig();
     }
 
-    private EnhancedHelpCommandConfig cfg(){
+    @SuppressWarnings("unchecked")
+    protected EnhancedHelpCommandConfig cfg(){
         return (EnhancedHelpCommandConfig) cfg;
     }
 
@@ -105,6 +106,11 @@ public class EnhancedHelpCommand extends GHPlugin {
 
         public void reset(){
             adminCommands = new String[0];
+        }
+
+        @Override
+        protected boolean softReset() {
+            return false;
         }
     }
 }

@@ -1,7 +1,7 @@
 apply plugin: "java"
 apply plugin: 'maven'
 
-version '1.0'
+version '1.1'
 
 sourceCompatibility = 1.14
 
@@ -15,16 +15,24 @@ repositories{
 ext{
     //the build number that this plugin is made for
     mindustryVersion = 'v125'
+    ghpHash = '26b7bd47a0'
+
+    getGHPModule = {
+        if (new File(projectDir.parent, '/GHPluginUtil/').exists())
+            return files("../GHPluginUtil/build/libs/GHPluginUtil.jar")
+        else
+            return "com.github.Gee-aitcH:GHPluginUtil:$ghpHash"
+    }
 }
 
-dependencies{
-    implementation 'com.github.Gee-aitcH:GHPluginUtil:63ffc7590f'
+dependencies {
+    implementation getGHPModule()
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
 }
 
 jar{
-    archiveFileName = "${project.archivesBaseName}.jar"
+    archiveFileName = "${project.archivesBaseName} ${version}.jar"
     from{
         configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
     }
