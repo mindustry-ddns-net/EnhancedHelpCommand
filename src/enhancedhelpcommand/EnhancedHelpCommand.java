@@ -29,15 +29,15 @@ public class EnhancedHelpCommand extends GHPlugin {
         super.init();
         if(cfg().adminCommands.length > 0) {
             adminCommandsSet.addAll(Arrays.asList(cfg().adminCommands));
-            log(debug, f("Admin Only Command: %s Loaded from config.", adminCommandsSet.toString()));
+            debug(f("Admin Only Command: %s Loaded from config.", adminCommandsSet.toString()));
         }
 
         Events.on(EventType.ServerLoadEvent.class, e -> {
             Events.fire(new EnhancedHelpCommand());
-            log(warn, f("Help Command Overwritten. Amount of admin commands: %s", adminCommandsSet.size()));
+            debug(f("Help Command Overwritten. Amount of admin commands: %s", adminCommandsSet.size()));
         });
 
-        log(debug, "Initialized\n");
+        debug("Initialized\n");
     }
 
     @Override
@@ -83,12 +83,12 @@ public class EnhancedHelpCommand extends GHPlugin {
 
     public void add(String cmd){
         adminCommandsSet.add(cmd);
-        log(debug, f("Admin Only Command: %sregistered.", cmd));
+        debug(f("Admin Only Command: %sregistered.", cmd));
     }
 
     public void add(String[] cmd){
         adminCommandsSet.addAll(Arrays.asList(cmd));
-        log(debug, f("Admin Only Commands: %s registered.", Arrays.toString(cmd)));
+        debug(f("Admin Only Commands: %s registered.", Arrays.toString(cmd)));
     }
 
 
