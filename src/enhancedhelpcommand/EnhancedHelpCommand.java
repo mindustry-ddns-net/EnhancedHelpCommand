@@ -40,6 +40,8 @@ public class EnhancedHelpCommand extends GHPlugin {
 
     @Override
     public void registerClientCommands(CommandHandler handler) {
+        handler.removeCommand("help");
+
         // Magic, NetServer:270
         handler.<Player>register("help", "[page]", "Lists all commands.", (args, player) -> {
             Seq<CommandHandler.Command> commands = handler.getCommandList().copy();
