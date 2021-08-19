@@ -11,9 +11,9 @@ repositories{
 }
 
 ext{
-    pluginVersion = '1.11'
+    pluginVersion = '1.2'
     //the build number that this plugin is made for
-    mindustryVersion = 'v125'
+    mindustryVersion = 'v126'
     ghpHash = '26b7bd47a0'
 
     getGHPModule = {

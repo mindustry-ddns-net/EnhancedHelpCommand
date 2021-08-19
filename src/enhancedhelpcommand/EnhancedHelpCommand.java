@@ -13,6 +13,7 @@ import java.util.*;
 
 import static pluginutil.PluginUtil.f;
 
+@SuppressWarnings("unused")
 public class EnhancedHelpCommand extends GHPlugin {
 
     private HashSet<String> adminCommandsSet;
