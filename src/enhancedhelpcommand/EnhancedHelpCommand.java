@@ -9,13 +9,10 @@ import mindustry.game.EventType;
 import mindustry.gen.Player;
 import pluginutil.GHPlugin;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
-import static pluginutil.LogMode.*;
 import static pluginutil.PluginUtil.f;
 
-@SuppressWarnings("unused never written")
 public class EnhancedHelpCommand extends GHPlugin {
 
     private HashSet<String> adminCommandsSet;
@@ -45,9 +42,13 @@ public class EnhancedHelpCommand extends GHPlugin {
         // Magic, NetServer:270
         handler.<Player>register("help", "[page]", "Lists all commands.", (args, player) -> {
             Seq<CommandHandler.Command> commands = handler.getCommandList().copy();
-            Seq<CommandHandler.Command> adminOnlyCommands = commands.copy().removeAll(cmd -> !adminCommandsSet.contains(cmd.text));
-            Seq<CommandHandler.Command> playerCommands = commands.copy().removeAll(cmd -> adminCommandsSet.contains(cmd.text));
+            ArrayList<CommandHandler.Command> adminOnlyCommands = commands.copy().removeAll(cmd -> !adminCommandsSet.contains(cmd.text)).list();
+            ArrayList<CommandHandler.Command> playerCommands = commands.copy().removeAll(cmd -> adminCommandsSet.contains(cmd.text)).list();
             commands.clear();
+
+            // Sort in Alphabetical order
+            adminOnlyCommands.sort(Comparator.comparing(a -> a.text));
+            playerCommands.sort(Comparator.comparing(a -> a.text));
 
             if (player.admin)
                 commands.addAll(adminOnlyCommands);
@@ -104,6 +105,7 @@ public class EnhancedHelpCommand extends GHPlugin {
     }
 
     public static class EnhancedHelpCommandConfig extends GHPluginConfig {
+        @SuppressWarnings("MismatchedReadAndWriteOfArray")
         private String[] adminCommands;
 
         public void reset(){
